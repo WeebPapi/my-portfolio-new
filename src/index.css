@@ -82,7 +82,7 @@ body {
   height: 100vh;
   background-color: black;
   transform-origin: bottom;
-  z-index: 50;
+  z-index: 150;
 }
 .slide-out {
   position: fixed;
@@ -92,7 +92,7 @@ body {
   height: 100vh;
   background-color: black;
   transform-origin: top;
-  z-index: 50;
+  z-index: 150;
 }
 .slick-slide > *, .slick-slide > div > * {
   max-height: 590px!important;
