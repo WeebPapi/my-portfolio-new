@@ -11,7 +11,7 @@ const FlickeringText: React.FC<FlickeringTextProps> = ({ children }) => {
       animate={{
         opacity: 1,
       }}
-      transition={{ duration: 0.3, ease: "easeInOut", repeat: Infinity }}
+      transition={{ duration: 0.32, ease: "easeInOut", repeat: Infinity }}
     >
       {children}
     </motion.span>

@@ -1,6 +1,6 @@
-import React, { useState, useRef } from 'react'
+import React, { useState } from 'react'
 import { Flex } from 'antd'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { Typewriter } from '../Anim/TypeWriter'
 import SocialLink, { SocialPlatform } from './SocialLink'
 import { socialLinks } from '../../data/socialLinks'
