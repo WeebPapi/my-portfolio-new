@@ -68,7 +68,6 @@ const ProjectViewPage: React.FC = () => {
       setImages(project.images)
       setTechnologies(project.technologies)
       
-      // Reset to first slide when project changes
       setCurrentSlide(0)
       if (carouselRef.current) {
         carouselRef.current.goTo(0)
@@ -105,7 +104,7 @@ const ProjectViewPage: React.FC = () => {
             marginTop: '5rem'
           }}
           afterChange={handleSlideChange}
-          beforeChange={(from, to) => setCurrentSlide(to)}
+          beforeChange={(_, to) => setCurrentSlide(to)}
           dots={{ className: 'control-dots' }}
           dotPosition="bottom"
           autoplay
