@@ -2,7 +2,7 @@ import { images } from "./imagesData"
 
 export const projectData = [
   {
-    title: "SwiftSight - Bionic Reader for ADHD",
+    title: "SwiftSight – Bionic Reader for ADHD",
     images: images.swiftSight,
     labels: ['Modern Flat UI, allowing users to seamlessly control the bionic intensity', 'Extension in action, dramatically enhancing reading experience', 'Chrome context menu integration, allowing users to only apply the extension to selected text'],
     desc: `SwiftSight is a Chrome extension developed with JavaScript, HTML, and CSS that enhances web text readability using bionic reading techniques. By highlighting key parts of words, it helps your brain naturally complete them, boosting reading speed and comprehension—especially beneficial for individuals with ADHD.
@@ -16,7 +16,7 @@ SwiftSight showcases effective use of web technologies and Chrome extension deve
     links: ['https://github.com/WeebPapi/SwiftSight', 'https://chromewebstore.google.com/detail/swiftsight-bionic-reader/hjppfcdfmjmpaobeiplfbocpbbpcjmie?authuser=1'],
   },
   {
-    title: "K&CO - Law Firm Landing Page",
+    title: "K&CO – Law Firm Landing Page",
     images: images.kco,
     labels: ['Modern landing page with smooth animations and snappy navigation', 'Responsive design, ensuring a great user experience across devices'],
     desc: `K&Co is a professional landing page for a law firm developed using React. The project leverages modern web development technologies to create an engaging and user-friendly website that effectively represents the firm's brand and services.
@@ -30,7 +30,7 @@ This project demonstrates proficiency in front-end web development using React, 
     links: ['https://github.com/WeebPapi/k-co', 'https://k-co.vercel.app']
   },
   {
-    title: "HooBank - Modern Bank App Landing Page",
+    title: "HooBank – Modern Bank App Landing Page",
     images: images.hooBank,
     labels: ['Modern landing page with smooth animations and snappy navigation', 'Responsive design, ensuring a great user experience across devices'],
     desc: `HooBank is a modern bank website landing page mockup developed using React. The project showcases a sleek and contemporary design, replicating the look and feel of a cutting-edge financial institution's online presence. It emphasizes clean aesthetics, intuitive navigation, and responsiveness to provide an optimal user experience across various devices.
@@ -44,7 +44,7 @@ This project demonstrates proficiency in front-end web development using React, 
     links: ['https://github.com/WeebPapi/bank-website', 'https://bank-website-nu.vercel.app']
   },
   {
-    title: "RecipeFinder - Recipe Database Website",
+    title: "RecipeFinder – Recipe Database Website",
     images: images.recipeFinder,
     labels: ['A modern recipe database website, utilizing spoonacular Rest API with filtration and saving functionality', 'Filter recipes by cuisine, diet, and more', 'Save recipes for later', 'View saved recipes'],
     desc: `RecipeFinder is a web application built with React that allows users to browse, filter, and save recipes. It utilizes Redux for state management, Axios for handling HTTP requests, React Router for client-side routing, and integrates with the Spoonacular API to fetch comprehensive recipe data.
