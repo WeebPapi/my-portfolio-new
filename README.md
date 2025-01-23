@@ -1,50 +1,27 @@
-# React + TypeScript + Vite
+# My Portfolio Website 🚀
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black)](https://my-portfolio-new-mu.vercel.app)
+[![TypeScript](https://img.shields.io/badge/TypeScript-85.3%25-blue)](https://www.typescriptlang.org/)
+[![React](https://img.shields.io/badge/React-18.x-61dafb)](https://reactjs.org/)
+[![Vite](https://img.shields.io/badge/Vite-Latest-646cff)](https://vitejs.dev/)
+[![TailwindCSS](https://img.shields.io/badge/TailwindCSS-Latest-38bdf8)](https://tailwindcss.com/)
 
-Currently, two official plugins are available:
+A modern, responsive portfolio website built with React, TypeScript, and Vite, showcasing my web development projects and skills.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🛠️ Tech Stack
 
-## Expanding the ESLint configuration
+- **Frontend Framework:** React 18
+- **Language:** TypeScript
+- **Build Tool:** Vite
+- **Styling:** TailwindCSS
+- **Deployment:** Vercel
+- **Code Quality:** ESLint
+- **Development Mode:** HMR (Hot Module Replacement)
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## ✨ Features
 
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
-
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+- 🎨 Modern and minimalist design
+- 📱 Fully responsive layout
+- 🚀 Awesome modern animations
+- 📊 Project showcase
+- 📫 Contact links
