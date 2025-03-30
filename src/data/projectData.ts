@@ -2,6 +2,34 @@ import { images } from "./imagesData"
 
 export const projectData = [
   {
+    title: "FigPro - Live Collaborative Web App",
+    images: images.figPro,
+    labels: [
+      "Real-time collaborative canvas with multi-user editing and drawing capabilities",
+      "Modern UI built with Next.js 15 and Tailwind CSS 4.0 for intuitive design workflows",
+      "Live presence indicators and communication tools for seamless team collaboration",
+    ],
+    desc: `FigPro is a real-time collaborative design platform built with Next.js 15, TypeScript, and Tailwind CSS 4.0 that enables multiple designers to work simultaneously on the same canvas. The application leverages Liveblocks for real-time synchronization, allowing team members to edit, draw, and communicate without workflow interruptions.
+
+Technically, the platform utilizes Fabric.js to power the interactive canvas, providing a comprehensive set of design tools including shape creation, text insertion, and precise object manipulation. The architecture implements a robust state management system that syncs user actions across clients with minimal latency. Changes propagate instantly through Liveblocks' presence and storage APIs, while maintaining data integrity during concurrent edits.
+
+The user interface is built with Radix UI components enhanced with Tailwind, delivering an intuitive experience that balances functionality with aesthetic appeal. Additional features include PDF export via jsPDF, multi-user cursor tracking, and real-time chat functionality—all containerized for consistent deployment. The application demonstrates effective use of modern web technologies to create a professional-grade collaborative design experience that rivals established industry tools.`,
+    technologies: [
+      "Next.js",
+      "TypeScript",
+      "Tailwind",
+      "Liveblocks",
+      "Fabric.js",
+      "React",
+      "Radix UI",
+      "jsPDF",
+    ],
+    links: [
+      "https://github.com/WeebPapi/figma-clone",
+      "https://figma-clone-plum-five.vercel.app",
+    ],
+  },
+  {
     title: "SwiftSight – Bionic Reader for ADHD",
     images: images.swiftSight,
     labels: [

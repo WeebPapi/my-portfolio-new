@@ -3,11 +3,12 @@ import { Flex } from "antd"
 import { motion, useScroll } from "framer-motion"
 import FeatureTitle from "../components/Projects/FeatureTitle"
 import Card from "../components/Projects/Card"
-import ProjectCard from '../components/Projects/ProjectCard';
+import ProjectCard from "../components/Projects/ProjectCard"
 import image1 from "../assets/cardImage1.png"
 import image2 from "../assets/cardImage2.png"
 import image3 from "../assets/cardImage3.png"
 import image4 from "../assets/cardImage4.png"
+import image5 from "../assets/cardImage5.svg"
 import Introduction from "../components/Projects/Introduction"
 import StartingCard from "../components/Projects/StartingCard"
 import startingCardImage from "../assets/startingCard.png"
@@ -15,24 +16,29 @@ import CTA from "../components/Projects/CTA"
 
 const features = [
   {
+    title: "FigPro Collaborative Design Platform",
+    desc: `Design together. Create faster. FigPro transforms collaborative design with real-time canvas editing and seamless team communication. Powerful tools. Intuitive interface. Perfect collaboration.`,
+    id: 0,
+  },
+  {
     title: "SwiftSight Chrome Extension",
     desc: `Read smarter. Not harder. SwiftSight transforms your browsing experience with intelligent text enhancement, guiding your eyes naturally through every word. Precision controls. Personal preferences. Perfect focus.`,
-    id: 0,
+    id: 1,
   },
   {
     title: "K&CO Law Firm Landing Page",
     desc: `Legal excellence. Reimagined. Where tradition meets innovation in law. K&CO delivers centuries of legal wisdom through a lens of modern sophistication. Precision. Purpose. Peace of mind.`,
-    id: 1,
+    id: 2,
   },
   {
     title: "HooBank Modern Bank App Landing Page",
     desc: `Banking at the speed of life. Where financial freedom meets technological elegance. More than an app — it's your financial life, beautifully orchestrated. Smart features. Seamless security. Stunning simplicity.`,
-    id: 2,
+    id: 3,
   },
   {
     title: "Recipe Database Website",
     desc: `Your culinary universe, curated. Where passionate cooking meets intelligent organization. Navigate global cuisines and dietary preferences with intuitive precision. Every meal. Every diet. Every craving answered.`,
-    id: 3,
+    id: 4,
   },
 ]
 
@@ -57,9 +63,13 @@ const gradients = [
     hexFrom: "#dcf4d4",
     hexTo: "#00cf03",
   },
+  {
+    hexFrom: "#fff4d4",
+    hexTo: "#f0cf03",
+  },
 ]
 
-const images = [image1, image2, image3, image4]
+const images = [image5, image1, image2, image3, image4]
 
 const ProjectsPage: React.FC = () => {
   const [activeText, setActiveText] = React.useState<number | null>(null)
@@ -197,7 +207,12 @@ const ProjectsPage: React.FC = () => {
       </Flex>
       <Flex className="mobile-projects-container">
         {features.map((item) => (
-          <ProjectCard key={item.id} title={item.title} desc={item.desc} id={item.id} />
+          <ProjectCard
+            key={item.id}
+            title={item.title}
+            desc={item.desc}
+            id={item.id}
+          />
         ))}
       </Flex>
       <Flex>
