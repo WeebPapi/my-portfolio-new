@@ -2,6 +2,34 @@ import { images } from "./imagesData"
 
 export const projectData = [
   {
+    title: "PrepWise - AI Powered Interview Assistant",
+    images: images.prepWise,
+    labels: [
+      "AI-powered interview practice using Vapi voice agents and Google Gemini feedback",
+      "Modern web application built with Next.js, Firebase, and Tailwind CSS",
+      "Features secure authentication, AI interview generation, real-time feedback, and user dashboard",
+    ],
+    desc: `PrepWise is an AI-powered web application designed to help users prepare for job interviews through realistic simulations and intelligent feedback. Built with Next.js for both frontend rendering and backend API logic, it utilizes Firebase for secure email/password authentication and data persistence, ensuring a seamless user experience. The interface is styled using Tailwind CSS and shadcn/ui components, providing a sleek, modern, and responsive design.
+  
+  The core functionality revolves around integrating advanced AI models. PrepWise leverages Vapi AI to provide sophisticated voice agents that conduct the interviews, creating an interactive and conversational practice environment. Google Gemini is employed to analyze the user's responses during the interview, generating instant, actionable feedback and detailed transcripts to help users identify areas for improvement. Zod is used for schema validation, ensuring data integrity throughout the application.
+  
+  Users can easily sign up, create new interview sessions tailored to specific job roles or skills, and engage with the AI interviewer. Post-interview, they receive comprehensive feedback directly within the application. A dedicated dashboard allows users to track their progress and manage all their past interview sessions efficiently. The project emphasizes clean code architecture and reusability, serving as a practical example of integrating AI services into a full-stack web application.`,
+    technologies: [
+      "Next.js",
+      "Firebase",
+      "Tailwind",
+      "Vapi AI",
+      "shadcn/ui",
+      "Google Gemini",
+      "Zod",
+      "React",
+    ],
+    links: [
+      "https://github.com/WeebPapi/interview-prep-app",
+      "https://interview-prep-app-six.vercel.app/",
+    ],
+  },
+  {
     title: "FigPro - Live Collaborative Web App",
     images: images.figPro,
     labels: [

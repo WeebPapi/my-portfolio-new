@@ -2,6 +2,10 @@ import swiftSight1 from "../assets/swiftSight/swiftSight1.png"
 import swiftSight2 from "../assets/swiftSight/swiftSight2.png"
 import swiftSight3 from "../assets/swiftSight/swiftSight3.png"
 
+import prepWise1 from "../assets/prepWise/prepWise1.png"
+import prepWise2 from "../assets/prepWise/prepWise2.png"
+import prepWise3 from "../assets/prepWise/prepWise3.png"
+
 import figPro1 from "../assets/figPro/figPro1.png"
 import figPro2 from "../assets/figPro/figPro2.png"
 
@@ -22,4 +26,5 @@ export const images = {
   hooBank: [hooBank1, hooBank2],
   recipeFinder: [recipeFinder1, recipeFinder2, recipeFinder3, recipeFinder4],
   figPro: [figPro1, figPro2],
+  prepWise: [prepWise1, prepWise2, prepWise3],
 }

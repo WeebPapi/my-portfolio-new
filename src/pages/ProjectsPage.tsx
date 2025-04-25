@@ -9,6 +9,7 @@ import image2 from "../assets/cardImage2.png"
 import image3 from "../assets/cardImage3.png"
 import image4 from "../assets/cardImage4.png"
 import image5 from "../assets/cardImage5.svg"
+import image6 from "../assets/cardImage6.png"
 import Introduction from "../components/Projects/Introduction"
 import StartingCard from "../components/Projects/StartingCard"
 import startingCardImage from "../assets/startingCard.png"
@@ -16,33 +17,42 @@ import CTA from "../components/Projects/CTA"
 
 const features = [
   {
+    title: "PrepWise - AI Powered Interview Assistant",
+    desc: `Interview smarter. Prepare faster. PrepWise revolutionizes interview practice with AI-driven voice conversations and instant feedback. Realistic simulations. Intelligent insights. Your best interview awaits. PrepWise.`,
+    id: 0,
+  },
+  {
     title: "FigPro Collaborative Design Platform",
     desc: `Design together. Create faster. FigPro transforms collaborative design with real-time canvas editing and seamless team communication. Powerful tools. Intuitive interface. Perfect collaboration.`,
-    id: 0,
+    id: 1,
   },
   {
     title: "SwiftSight Chrome Extension",
     desc: `Read smarter. Not harder. SwiftSight transforms your browsing experience with intelligent text enhancement, guiding your eyes naturally through every word. Precision controls. Personal preferences. Perfect focus.`,
-    id: 1,
+    id: 2,
   },
   {
     title: "K&CO Law Firm Landing Page",
     desc: `Legal excellence. Reimagined. Where tradition meets innovation in law. K&CO delivers centuries of legal wisdom through a lens of modern sophistication. Precision. Purpose. Peace of mind.`,
-    id: 2,
+    id: 3,
   },
   {
     title: "HooBank Modern Bank App Landing Page",
     desc: `Banking at the speed of life. Where financial freedom meets technological elegance. More than an app — it's your financial life, beautifully orchestrated. Smart features. Seamless security. Stunning simplicity.`,
-    id: 3,
+    id: 4,
   },
   {
     title: "Recipe Database Website",
     desc: `Your culinary universe, curated. Where passionate cooking meets intelligent organization. Navigate global cuisines and dietary preferences with intuitive precision. Every meal. Every diet. Every craving answered.`,
-    id: 4,
+    id: 5,
   },
 ]
 
 const gradients = [
+  {
+    hexFrom: "#686773",
+    hexTo: "#000103",
+  },
   {
     hexFrom: "#e0dff7",
     hexTo: "#0069cf",
@@ -69,7 +79,7 @@ const gradients = [
   },
 ]
 
-const images = [image5, image1, image2, image3, image4]
+const images = [image6, image5, image1, image2, image3, image4]
 
 const ProjectsPage: React.FC = () => {
   const [activeText, setActiveText] = React.useState<number | null>(null)
