@@ -3,7 +3,7 @@ import { Flex } from "antd"
 import React, { useEffect, useRef } from "react"
 import FlickeringText from "../Anim/FlickeringText"
 import { Typewriter } from "../Anim/TypeWriter"
-import { motion, useInView } from "framer-motion"
+import { motion } from "framer-motion"
 
 interface IntroductionProps {
   setActiveText: React.Dispatch<React.SetStateAction<number | null>>
@@ -11,10 +11,27 @@ interface IntroductionProps {
 
 const Introduction: React.FC<IntroductionProps> = ({ setActiveText }) => {
   const ref = useRef<HTMLDivElement>(null)
-  const isInView = useInView(ref, { margin: "-50% 0px -50% 0px" })
+
   useEffect(() => {
-    if (isInView) setActiveText(999)
-  }, [isInView])
+    const element = ref.current
+    if (!element) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setActiveText(999)
+        }
+      },
+      {
+        root: null,
+        rootMargin: "-45% 0px -45% 0px",
+        threshold: 0,
+      }
+    )
+
+    observer.observe(element)
+    return () => observer.disconnect()
+  }, [setActiveText])
   return (
     <motion.div ref={ref}>
       <Flex

@@ -27,6 +27,7 @@ const Card: React.FC<CardProps> = ({ hexFrom, hexTo, image, id }) => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        paddingInline: "20px"
       }}
     >
       <img

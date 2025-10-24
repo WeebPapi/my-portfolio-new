@@ -1,6 +1,5 @@
 import { Typography } from "antd"
-import { useInView } from "framer-motion"
-import React, { useEffect, useRef } from "react"
+import React, { useEffect, useRef, useState } from "react"
 
 interface FeatureTitleProps {
   children: React.ReactNode
@@ -16,11 +15,30 @@ const FeatureTitle: React.FC<FeatureTitleProps> = ({
   desc,
 }) => {
   const ref = useRef<HTMLParagraphElement>(null)
-  const isInView = useInView(ref, { margin: "-55% 0px -55% 0px" })
+  const [isInView, setIsInView] = useState(false)
+
   useEffect(() => {
-    if (isInView) setActiveText(id)
-    else setActiveText(null)
-  }, [isInView, id])
+    const element = ref.current
+    if (!element) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        const inView = entry.isIntersecting
+        setIsInView(inView)
+        if (inView) {
+          setActiveText(id)
+        }
+      },
+      {
+        root: null,
+        rootMargin: "-45% 0px -45% 0px",
+        threshold: 0,
+      }
+    )
+
+    observer.observe(element)
+    return () => observer.disconnect()
+  }, [id, setActiveText])
   return (
     <>
       <div ref={ref} style={{ marginBottom: "10vh" }}>
