@@ -177,6 +177,11 @@ svg#loader {
   }
 }
 
+.card-container {
+  border-radius: 20px;
+  padding-inline: 20px;
+}
+
 .mobile-carousel-container {
   margin-top: 10vh;
   width: 100%;
@@ -238,6 +243,28 @@ svg#loader {
   margin: 4rem 0 !important;
 }
 
+@media (max-width: 1440px) {
+  .card-container {
+    border-radius: 18px;
+    padding-inline: 18px;
+  }
+  .slick-slide > *,
+  .slick-slide > div > * {
+    max-height: 500px !important;
+  }
+}
+
+@media (max-width: 1024px) {
+  .card-container {
+    border-radius: 16px;
+    padding-inline: 16px;
+  }
+  .slick-slide > *,
+  .slick-slide > div > * {
+    max-height: 450px !important;
+  }
+}
+
 @media (max-width: 768px) {
   .start-btn {
     padding: 0.25em 0.5em;
@@ -281,11 +308,12 @@ svg#loader {
     padding: 1rem 0;
   }
   .card-container {
-    width: 90%;
+    width: 85%;
     margin-top: 1rem;
     aspect-ratio: 1;
     background: #180f4a;
-    border-radius: 20px;
+    border-radius: 15px;
+    padding-inline: 15px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -376,8 +404,9 @@ svg#loader {
     padding: 0.5rem;
   }
   .card-container {
-    width: 100%;
-    padding: 0.5rem;
+    width: 95%;
+    padding-inline: 10px;
+    border-radius: 12px;
   }
   .project-view-carousel {
     width: 100%;

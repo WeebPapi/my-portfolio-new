@@ -17,17 +17,16 @@ const Card: React.FC<CardProps> = ({ hexFrom, hexTo, image, id }) => {
         opacity: 1,
         transition: { duration: 0.5, ease: "easeIn" },
       }}
+      className="card-container"
       style={{
         width: "100%",
         height: "100%",
-        borderRadius: 20,
         backgroundImage: `linear-gradient(128deg, ${hexFrom} 0%, ${hexTo} 100%)`,
         transformOrigin: "top",
         position: "relative",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        paddingInline: "20px"
       }}
     >
       <img
