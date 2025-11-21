@@ -1,14 +1,14 @@
 import React from "react"
-import { useNavigate } from "react-router-dom"
 import { motion } from "framer-motion"
+import { usePageTransition } from "../../context/PageTransitionContext"
 
 const HeaderButton: React.FC = () => {
-  const navigate = useNavigate()
+  const { startTransition } = usePageTransition()
 
   return (
     <motion.button
       className="start-btn"
-      onClick={() => navigate("/projects")}
+      onClick={() => startTransition("/projects")}
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.9 }}
     >

@@ -86,14 +86,20 @@ const ProjectsPage: React.FC = () => {
   const { scrollYProgress } = useScroll()
 
   return (
-    <>
+    <Flex
+      vertical
+      style={{
+        minHeight: "100vh",
+        width: "100%",
+      }}
+    >
       <Flex
         justify="center"
         align="start"
         className="projects-page-container"
         style={{
           width: "100%",
-          minHeight: "100vh",
+          flex: 1,
           position: "relative",
         }}
       >
@@ -215,7 +221,7 @@ const ProjectsPage: React.FC = () => {
           </motion.div>
         </Flex>
       </Flex>
-      <Flex className="mobile-projects-container">
+      <Flex className="mobile-projects-container" style={{ width: "100%" }}>
         {features.map((item) => (
           <ProjectCard
             key={item.id}
@@ -225,10 +231,16 @@ const ProjectsPage: React.FC = () => {
           />
         ))}
       </Flex>
-      <Flex>
+      <Flex
+        justify="center"
+        style={{
+          width: "100%",
+          marginTop: "auto",
+        }}
+      >
         <CTA />
       </Flex>
-    </>
+    </Flex>
   )
 }
 

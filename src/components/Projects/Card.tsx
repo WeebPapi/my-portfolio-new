@@ -1,5 +1,6 @@
 import React from "react"
 import { motion } from "framer-motion"
+import React, { useState } from "react"
 import ShowMeButton from "./ShowMeButton"
 
 interface CardProps {
@@ -10,6 +11,8 @@ interface CardProps {
 }
 
 const Card: React.FC<CardProps> = ({ hexFrom, hexTo, image, id }) => {
+  const [isLoaded, setIsLoaded] = useState(false)
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -31,7 +34,18 @@ const Card: React.FC<CardProps> = ({ hexFrom, hexTo, image, id }) => {
     >
       <img
         src={image}
-        style={{ objectFit: "contain", width: "100%", height: "100%" }}
+        alt="Project preview"
+        loading="lazy"
+        decoding="async"
+        onLoad={() => setIsLoaded(true)}
+        style={{
+          objectFit: "contain",
+          width: "100%",
+          height: "100%",
+          filter: isLoaded ? "none" : "blur(32px)",
+          transition: "filter 0.4s ease",
+          backgroundColor: "rgba(0,0,0,0.2)",
+        }}
       />
       <ShowMeButton id={id} />
     </motion.div>

@@ -94,6 +94,20 @@ body {
   transform-origin: top;
   z-index: 150;
 }
+
+.header-container {
+  margin-top: 6rem;
+}
+.page-transition__content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  min-height: 100vh;
+  padding: 70px 0 0 0;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
 .slick-slide > *,
 .slick-slide > div > * {
   max-height: 590px !important;
@@ -273,6 +287,7 @@ svg#loader {
   .header-container {
     flex-direction: column;
     align-items: center;
+    margin-top: 4rem;
   }
   .secondary-text-container {
     flex-direction: column;
@@ -371,6 +386,7 @@ svg#loader {
     flex-direction: column;
     align-items: center;
     padding: 0.5rem;
+    margin-top: 3rem;
   }
   a.link {
     font-size: 0.9rem;
@@ -396,6 +412,7 @@ svg#loader {
   }
   .header-container {
     gap: medium;
+    margin-top: 2rem;
   }
   .secondary-text-container {
     padding: 1rem;

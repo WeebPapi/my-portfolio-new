@@ -1,13 +1,13 @@
 import { Button } from "antd"
 import React from "react"
-import { useNavigate } from "react-router-dom"
+import { usePageTransition } from "../../context/PageTransitionContext"
 
 interface ShowMeButtonProps {
   id: number
 }
 
 const ShowMeButton: React.FC<ShowMeButtonProps> = ({ id }) => {
-  const navigate = useNavigate()
+  const { startTransition } = usePageTransition()
   return (
     <Button
       style={{ position: "absolute", bottom: "5%", left: "85%" }}
@@ -15,7 +15,7 @@ const ShowMeButton: React.FC<ShowMeButtonProps> = ({ id }) => {
       variant="solid"
       size="large"
       onClick={() => {
-        navigate(`/projects/${id}`)
+        startTransition(`/projects/${id}`)
       }}
     >
       Show Me

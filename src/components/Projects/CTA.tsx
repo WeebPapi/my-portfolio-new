@@ -1,11 +1,11 @@
 import React from "react"
 import { Button, Flex, Typography } from "antd"
 import { FaArrowRight } from "react-icons/fa"
-import { useNavigate } from "react-router-dom"
 import contactHeroImage from "../../assets/contactHero.jpg"
+import { usePageTransition } from "../../context/PageTransitionContext"
 
 const CTA: React.FC = () => {
-  const navigate = useNavigate()
+  const { startTransition } = usePageTransition()
   return (
     <div
       style={{
@@ -18,7 +18,7 @@ const CTA: React.FC = () => {
         background: `url(${contactHeroImage})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
-        padding: "5vh 0",
+        padding: 0,
       }}
       className="cta-container"
     >
@@ -48,7 +48,7 @@ const CTA: React.FC = () => {
         <Button
           icon={<FaArrowRight />}
           onClick={() => {
-            navigate("/contact")
+            startTransition("/contact")
           }}
           style={{
             marginTop: "2rem",
