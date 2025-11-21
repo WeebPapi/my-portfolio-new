@@ -1,6 +1,8 @@
 import React, { useCallback, useMemo, useRef, useState } from "react"
 import { NavigateOptions, Outlet, To, useNavigate } from "react-router-dom"
-import PageTransition, { PageTransitionHandle } from "../components/Anim/PageTransition"
+import PageTransition, {
+  PageTransitionHandle,
+} from "../components/Anim/PageTransition"
 import Navbar from "../components/Navbar"
 import { PageTransitionContext } from "../context/PageTransitionContext"
 
@@ -23,7 +25,13 @@ const MainLayout: React.FC = () => {
 
       const overlay = transitionRef.current
       if (!overlay) {
-        navigate(to, options)
+        // navigate has overloads: (to: To, options?) and (delta: number)
+        // narrow the union so TS can pick the correct overload
+        if (typeof to === "number") {
+          navigate(to)
+        } else {
+          navigate(to, options)
+        }
         return
       }
 
@@ -32,7 +40,12 @@ const MainLayout: React.FC = () => {
 
       try {
         await overlay.animateOut()
-        navigate(to, options)
+        // narrow before calling navigate to satisfy overloads
+        if (typeof to === "number") {
+          navigate(to)
+        } else {
+          navigate(to, options)
+        }
         await waitForNextFrame()
         await overlay.animateIn()
       } finally {
