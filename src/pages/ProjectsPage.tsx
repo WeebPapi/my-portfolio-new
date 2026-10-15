@@ -1,246 +1,87 @@
 import React from "react"
-import { Flex } from "antd"
-import { motion, useScroll } from "framer-motion"
-import FeatureTitle from "../components/Projects/FeatureTitle"
-import Card from "../components/Projects/Card"
-import ProjectCard from "../components/Projects/ProjectCard"
-import image1 from "../assets/cardImage1.png"
-import image2 from "../assets/cardImage2.png"
-import image3 from "../assets/cardImage3.png"
-import image4 from "../assets/cardImage4.png"
-import image5 from "../assets/cardImage5.svg"
-import image6 from "../assets/cardImage6.png"
-import Introduction from "../components/Projects/Introduction"
-import StartingCard from "../components/Projects/StartingCard"
-import startingCardImage from "../assets/startingCard.png"
-import CTA from "../components/Projects/CTA"
+import { useSearchParams } from "react-router-dom"
+import ProjectCard from "../components/ProjectCard"
+import { categories, projects } from "../data/projects"
+import { usePageTitle } from "../usePageTitle"
 
-const features = [
-  {
-    title: "PrepWise - AI Powered Interview Assistant",
-    desc: `Interview smarter. Prepare faster. PrepWise revolutionizes interview practice with AI-driven voice conversations and instant feedback. Realistic simulations. Intelligent insights. Your best interview awaits. PrepWise.`,
-    id: 0,
-  },
-  {
-    title: "FigPro Collaborative Design Platform",
-    desc: `Design together. Create faster. FigPro transforms collaborative design with real-time canvas editing and seamless team communication. Powerful tools. Intuitive interface. Perfect collaboration.`,
-    id: 1,
-  },
-  {
-    title: "SwiftSight Chrome Extension",
-    desc: `Read smarter. Not harder. SwiftSight transforms your browsing experience with intelligent text enhancement, guiding your eyes naturally through every word. Precision controls. Personal preferences. Perfect focus.`,
-    id: 2,
-  },
-  {
-    title: "K&CO Law Firm Landing Page",
-    desc: `Legal excellence. Reimagined. Where tradition meets innovation in law. K&CO delivers centuries of legal wisdom through a lens of modern sophistication. Precision. Purpose. Peace of mind.`,
-    id: 3,
-  },
-  {
-    title: "HooBank Modern Bank App Landing Page",
-    desc: `Banking at the speed of life. Where financial freedom meets technological elegance. More than an app — it's your financial life, beautifully orchestrated. Smart features. Seamless security. Stunning simplicity.`,
-    id: 4,
-  },
-  {
-    title: "Recipe Database Website",
-    desc: `Your culinary universe, curated. Where passionate cooking meets intelligent organization. Navigate global cuisines and dietary preferences with intuitive precision. Every meal. Every diet. Every craving answered.`,
-    id: 5,
-  },
-]
-
-const gradients = [
-  {
-    hexFrom: "#686773",
-    hexTo: "#000103",
-  },
-  {
-    hexFrom: "#e0dff7",
-    hexTo: "#0069cf",
-  },
-  {
-    hexFrom: "#f8d1c3",
-    hexTo: "#f36f05",
-  },
-  {
-    hexFrom: "#f3eaf7",
-    hexTo: "#9200cf",
-  },
-  {
-    hexFrom: "#f6dcd6",
-    hexTo: "#cf2600",
-  },
-  {
-    hexFrom: "#dcf4d4",
-    hexTo: "#00cf03",
-  },
-  {
-    hexFrom: "#fff4d4",
-    hexTo: "#f0cf03",
-  },
-]
-
-const images = [image6, image5, image1, image2, image3, image4]
+const filters = [{ id: undefined, label: "All" }, ...categories]
 
 const ProjectsPage: React.FC = () => {
-  const [activeText, setActiveText] = React.useState<number | null>(null)
-  const { scrollYProgress } = useScroll()
+  usePageTitle("Projects")
+  const [searchParams, setSearchParams] = useSearchParams()
+  // An unknown ?category= value falls back to All.
+  const active = categories.find(
+    (category) => category.id === searchParams.get("category")
+  )?.id
+  const visible = active
+    ? projects.filter((project) => project.categories.includes(active))
+    : projects
 
   return (
-    <Flex
-      vertical
-      style={{
-        minHeight: "100vh",
-        width: "100%",
-      }}
-    >
-      <Flex
-        justify="center"
-        align="start"
-        className="projects-page-container"
-        style={{
-          width: "100%",
-          flex: 1,
-          position: "relative",
-        }}
+    <div className="container-page py-10 sm:py-14">
+      <h1 className="display-xl">
+        <span className="block overflow-hidden pb-[0.1em]">
+          <span className="animate-rise block">
+            Projects
+            <sup aria-hidden="true" className="ml-2 font-mono text-[0.22em] font-normal tracking-normal text-accent [vertical-align:2.4em]">
+              {projects.length}
+            </sup>
+          </span>
+        </span>
+      </h1>
+      <p className="mt-2 max-w-2xl text-lg text-muted">
+        Client work, hackathon builds and personal projects. Recent and
+        substantial work comes first; older projects are further down.
+      </p>
+
+      <div
+        role="group"
+        aria-label="Filter projects by category"
+        className="mt-8 flex flex-wrap gap-2.5"
       >
-        <motion.div
-          style={{
-            background: "black",
-            height: 8,
-            width: "100%",
-            scaleX: scrollYProgress,
-            position: "fixed",
-            top: 0,
-            left: 0,
-            transformOrigin: "left",
-            zIndex: 40,
-          }}
-        ></motion.div>
-        <Flex
-          vertical
-          align="center"
-          style={{
-            maxWidth: 500,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "start",
-          }}
-        >
-          <Introduction setActiveText={setActiveText} />
-          <Flex
-            vertical
-            justify="center"
-            gap={20}
-            style={{
-              width: "max-content",
-              maxWidth: "100%",
-              minHeight: "100vh",
-              padding: "20vh 0",
-            }}
+        {filters.map((filter) => (
+          <button
+            key={filter.label}
+            type="button"
+            aria-pressed={filter.id === active}
+            onClick={() =>
+              setSearchParams(filter.id ? { category: filter.id } : {}, {
+                replace: true,
+                preventScrollReset: true,
+              })
+            }
+            className={`lift rounded-full border-2 border-ink px-4 py-1.5 text-base font-medium ${
+              filter.id === active ? "bg-ink text-paper" : "bg-paper"
+            }`}
           >
-            <ul
-              style={{
-                height: "100%",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "start",
-              }}
-            >
-              {features.map((item) => (
-                <li
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    flexDirection: "column",
-                  }}
-                  key={item.id}
-                >
-                  <FeatureTitle
-                    desc={item.desc}
-                    setActiveText={setActiveText}
-                    id={item.id}
-                  >
-                    {item.title}
-                  </FeatureTitle>
-                </li>
-              ))}
-            </ul>
-          </Flex>
-        </Flex>
-        <Flex
-          style={{
-            width: "50%",
-            height: "100vh",
-            position: "sticky",
-            top: 0,
-          }}
-          justify="center"
-          align="center"
-        >
-          <motion.div
-            style={{
-              width: "560px",
-              aspectRatio: 1,
-              background: "#180f4a",
-              borderRadius: 20,
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            {activeText !== 999 ? (
-              activeText || activeText === 0 ? (
-                <Card
-                  hexFrom={gradients[activeText].hexFrom}
-                  hexTo={gradients[activeText].hexTo}
-                  image={images[activeText]}
-                  id={features[activeText].id}
-                />
-              ) : (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.5, ease: "easeIn" }}
-                  className="dots"
-                >
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                </motion.div>
-              )
-            ) : (
-              <StartingCard image={startingCardImage} />
-            )}
-          </motion.div>
-        </Flex>
-      </Flex>
-      <Flex className="mobile-projects-container" style={{ width: "100%" }}>
-        {features.map((item) => (
-          <ProjectCard
-            key={item.id}
-            title={item.title}
-            desc={item.desc}
-            id={item.id}
-          />
+            {filter.label}
+          </button>
         ))}
-      </Flex>
-      <Flex
-        justify="center"
-        style={{
-          width: "100%",
-          marginTop: "auto",
-        }}
-      >
-        <CTA />
-      </Flex>
-    </Flex>
+      </div>
+
+      <h2 aria-live="polite" className="eyebrow mt-8">
+        {visible.length === projects.length
+          ? `${projects.length} projects`
+          : `${visible.length} of ${projects.length} projects`}
+      </h2>
+
+      {visible.length ? (
+        // Keyed by filter so the cards replay their staggered entrance when the filter changes.
+        <ul key={active ?? "all"} className="mt-5 grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
+          {visible.map((project, index) => (
+            <li
+              key={project.slug}
+              className="animate-pop"
+              style={{ animationDelay: `${Math.min(index, 8) * 50}ms` }}
+            >
+              <ProjectCard project={project} />
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className="mt-4 text-muted">No projects in this category yet.</p>
+      )}
+    </div>
   )
 }
 

@@ -1,0 +1,17 @@
+import React from "react"
+
+// Minimal cheetah head; the eyes, tear marks and nose are holes (evenodd), so it works on any background.
+// Same shape as public/cheetah.svg (the favicon).
+const cheetahPath =
+  "M16 8.6C14.2 8.6 12.4 8.9 11 9.5C9.6 8.2 7.6 7 6.3 7C5.5 7 5.3 8 5.6 9.2C5.9 10.4 6.4 11.3 6.9 12C5.6 13.8 5.2 15.8 5.6 17.8C5.9 19.2 6.6 20.4 7.4 21.4C9 23.4 11 24.8 12.8 25.6C14.8 26.4 17.2 26.4 19.2 25.6C21 24.8 23 23.4 24.6 21.4C25.4 20.4 26.1 19.2 26.4 17.8C26.8 15.8 26.4 13.8 25.1 12C25.6 11.3 26.1 10.4 26.4 9.2C26.7 8 26.5 7 25.7 7C24.4 7 22.4 8.2 21 9.5C19.6 8.9 17.8 8.6 16 8.6Z" +
+  "M8.2 13.4C10.2 12.4 12.6 13.4 13.5 15.6C13.5 18.2 12.5 20.8 12.6 23.6C11.4 21.6 11.2 18.8 11.6 17C10 16.8 8.8 15.4 8.2 13.4Z" +
+  "M23.8 13.4C21.8 12.4 19.4 13.4 18.5 15.6C18.5 18.2 19.5 20.8 19.4 23.6C20.6 21.6 20.8 18.8 20.4 17C22 16.8 23.2 15.4 23.8 13.4Z" +
+  "M14.3 20.6C15.3 20.2 16.7 20.2 17.7 20.6L16 22.6Z"
+
+const CheetahMark: React.FC<{ className?: string }> = ({ className = "" }) => (
+  <svg viewBox="5 6 22 21" aria-hidden="true" className={className}>
+    <path fill="currentColor" fillRule="evenodd" d={cheetahPath} />
+  </svg>
+)
+
+export default CheetahMark

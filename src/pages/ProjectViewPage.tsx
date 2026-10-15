@@ -1,210 +1,153 @@
-import React, { useEffect, useState, useRef, useMemo, useCallback } from "react"
-import { Carousel, Flex, Typography } from "antd"
-import { useParams } from "react-router-dom"
-import { projectData } from "../data/projectData"
-import Badge from "../components/Badge"
-import { motion } from "framer-motion"
-import { CarouselRef } from "antd/es/carousel"
-import ExternalLink from "../components/Projects/ExternalLink"
-import { useMediaQuery } from "react-responsive"
+import React from "react"
+import { Link, Navigate, useParams } from "react-router-dom"
+import { getProject, legacyIds, Project } from "../data/projects"
+import { ProjectCover } from "../components/ProjectCard"
+import EventStickers from "../components/EventStickers"
+import { usePageTitle } from "../usePageTitle"
+import ErrorPage from "./ErrorPage"
 
-const MobileCarousel = ({
-  images,
-  onSlideChange,
-}: {
-  images: string[]
-  onSlideChange: (index: number) => void
-}) => {
-  const containerRef = useRef<HTMLDivElement>(null)
+const Section: React.FC<{ title: string; children: React.ReactNode }> = ({
+  title,
+  children,
+}) => (
+  <section className="grid gap-3 border-t-2 border-ink py-8 md:grid-cols-[14rem_1fr] md:gap-8">
+    <h2 className="eyebrow md:pt-1.5">{title}</h2>
+    <div className="space-y-4">{children}</div>
+  </section>
+)
 
-  const handleScroll = useCallback(() => {
-    if (!containerRef.current) return
-    const scrollLeft = containerRef.current.scrollLeft
-    const itemWidth = containerRef.current.offsetWidth
-    const newIndex = Math.round(scrollLeft / itemWidth)
-    onSlideChange(newIndex)
-  }, [onSlideChange])
+const BulletList: React.FC<{ items: string[] }> = ({ items }) => (
+  <ul className="max-w-prose list-disc space-y-2 pl-5 marker:text-accent">
+    {items.map((item) => (
+      <li key={item}>{item}</li>
+    ))}
+  </ul>
+)
+
+const ProjectDetail: React.FC<{ project: Project }> = ({ project }) => {
+  usePageTitle(project.name)
 
   return (
-    <div className="mobile-carousel-container">
-      <div
-        className="mobile-carousel"
-        ref={containerRef}
-        onScroll={handleScroll}
-      >
-        {images.map((image, index) => (
-          <div key={index} className="mobile-carousel-item">
-            <img src={image} alt={`Project image ${index + 1}`} />
-          </div>
+    <article className="container-page py-12 sm:py-16">
+      <Link to="/projects" viewTransition className="text-link text-base">
+        ← All projects
+      </Link>
+
+      <header className="mt-8 pb-10">
+        <p className="eyebrow">{project.type}</p>
+        <h1 className="display-xl mt-3">
+          <span className="block overflow-hidden pb-[0.1em]">
+            <span className="animate-rise block">{project.name}</span>
+          </span>
+        </h1>
+        <p className="mt-3 max-w-2xl text-lg text-muted sm:text-xl">
+          {project.summary}
+        </p>
+        {project.links && (
+          <ul className="mt-7 flex flex-wrap gap-3">
+            {project.links.map((link) => (
+              <li key={link.href}>
+                <a
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-secondary"
+                >
+                  {link.label} <span aria-hidden="true">↗</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        )}
+      </header>
+
+      <ProjectCover
+        project={project}
+        className="mb-12 aspect-video w-full rounded-xl border-2 border-ink sm:aspect-[21/9]"
+      />
+
+      <Section title="Overview">
+        {project.overview.map((paragraph) => (
+          <p key={paragraph} className="max-w-prose">
+            {paragraph}
+          </p>
         ))}
-      </div>
-    </div>
+      </Section>
+
+      <Section title="My contribution">
+        <BulletList items={project.contribution} />
+      </Section>
+
+      {project.decisions && (
+        <Section title="Key technical decisions">
+          <BulletList items={project.decisions} />
+        </Section>
+      )}
+
+      <Section title="Outcome and status">
+        <p className="max-w-prose font-medium">{project.status}</p>
+        <p className="max-w-prose">{project.outcome}</p>
+        {project.ai && <p className="max-w-prose text-muted">{project.ai}</p>}
+        <ul className="flex flex-wrap gap-1.5 pt-2">
+          {project.tags.map((tag) => (
+            <li key={tag} className="tag">
+              {tag}
+            </li>
+          ))}
+        </ul>
+      </Section>
+
+      {project.event && (
+        <Section title="At the event">
+          <EventStickers name={project.name} event={project.event} />
+        </Section>
+      )}
+
+      <Section title="Gallery">
+        {project.images ? (
+          <ul className="grid items-start gap-6 sm:grid-cols-2">
+            {project.images.map((image) => (
+              <li key={image.src}>
+                <figure>
+                  <a href={image.src} target="_blank" rel="noopener noreferrer">
+                    <img
+                      src={image.src}
+                      alt={image.alt}
+                      loading="lazy"
+                      decoding="async"
+                      className="w-full rounded-lg border border-line bg-sand"
+                    />
+                  </a>
+                  <figcaption className="mt-2 text-sm text-muted">
+                    {image.alt}
+                  </figcaption>
+                </figure>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="max-w-prose rounded-lg border border-dashed border-line bg-surface px-5 py-4 text-muted">
+            {project.noImagesNote ?? "No screenshots yet."}
+          </p>
+        )}
+      </Section>
+    </article>
   )
 }
 
 const ProjectViewPage: React.FC = () => {
   const { projectId } = useParams()
-  const [title, setTitle] = useState("")
-  const [desc, setDesc] = useState("")
-  const [labels, setLabels] = useState<string[]>([])
-  const [images, setImages] = useState<string[]>([])
-  const [links, setLinks] = useState<string[]>([])
-  const [technologies, setTechnologies] = useState<string[]>([])
-  const [currentSlide, setCurrentSlide] = useState(0)
-  const carouselRef = useRef<CarouselRef>(null)
+  const legacySlug = projectId && legacyIds.get(projectId)
+  if (legacySlug) return <Navigate to={`/projects/${legacySlug}`} replace />
 
-  const isMobile = useMediaQuery({ query: "(max-width: 768px)" })
-
-  useEffect(() => {
-    if (projectId && projectData) {
-      const project = projectData[parseInt(projectId)]
-
-      setTitle(project.title)
-      setDesc(project.desc)
-
-      const projectLabels = project.labels || []
-      setLabels(projectLabels)
-
-      const projectLinks = project.links || []
-      setLinks(projectLinks)
-
-      setImages(project.images)
-      setTechnologies(project.technologies)
-
-      setCurrentSlide(0)
-      if (carouselRef.current) {
-        carouselRef.current.goTo(0)
-      }
-    }
-  }, [projectId])
-
-  const currentLabel = useMemo(() => {
-    if (labels.length === 0) return "No Label"
-    return labels[currentSlide] || labels[0]
-  }, [labels, currentSlide])
-
-  const handleSlideChange = (current: number) => {
-    setCurrentSlide(current)
-  }
-
-  return (
-    <Flex
-      style={{ width: "100%", minHeight: "100vh", padding: "1rem" }}
-      vertical
-      align="center"
-    >
-      {isMobile ? (
-        <MobileCarousel images={images} onSlideChange={handleSlideChange} />
-      ) : (
-        <Carousel
-          ref={carouselRef}
-          adaptiveHeight
-          className="project-view-carousel"
-          style={{
-            width: "100%",
-            maxWidth: "900px",
-            height: "auto",
-            borderRadius: 30,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            marginTop: "5rem",
-          }}
-          afterChange={handleSlideChange}
-          beforeChange={(_, to) => setCurrentSlide(to)}
-          dots={{ className: "control-dots" }}
-          dotPosition="bottom"
-          autoplay
-        >
-          {images.map((image, index) => (
-            <div
-              key={index}
-              style={{
-                width: "100%",
-                height: "auto",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                padding: "0 1rem",
-              }}
-            >
-              <img
-                style={{
-                  width: "100%",
-                  height: "auto",
-                  maxHeight: "300px",
-                  objectFit: "contain",
-                  borderRadius: 30,
-                }}
-                src={image}
-                alt={`Project image ${index + 1}`}
-              />
-            </div>
-          ))}
-        </Carousel>
-      )}
-      <motion.div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "start",
-          margin: "1rem 0",
-        }}
-      >
-        <Typography.Text
-          style={{
-            fontSize: 16,
-            fontWeight: 600,
-            color: "lightgray",
-            textAlign: "center",
-            display: "block",
-            width: "100%",
-          }}
-        >
-          {currentLabel}
-        </Typography.Text>
-      </motion.div>
-      <div
-        style={{
-          display: "flex",
-          flexWrap: "wrap",
-          gap: "8px",
-          marginTop: "0.5rem",
-          justifyContent: "center",
-        }}
-      >
-        {technologies.map((tech, index) => (
-          <Badge key={index} technology={tech} />
-        ))}
-      </div>
-      <Flex
-        vertical
-        justify="center"
-        align="center"
-        style={{ margin: "5vh 0 3vh 0", maxWidth: 900 }}
-      >
-        <Typography.Title
-          className="project-view-title"
-          style={{ width: "100%" }}
-        >
-          {title}
-        </Typography.Title>
-        <Typography.Paragraph
-          className="project-view-description"
-          style={{ fontSize: 18, color: "#6B7280" }}
-        >
-          {desc}
-        </Typography.Paragraph>
-        <Flex
-          className="project-view-links"
-          gap={64}
-          style={{ margin: "1rem 0 2rem 0", width: "100%" }}
-        >
-          <ExternalLink label="View the project on GitHub" link={links[0]} />
-          <ExternalLink label="Visit the Website" link={links[1]} />
-        </Flex>
-      </Flex>
-    </Flex>
+  const project = getProject(projectId)
+  return project ? (
+    <ProjectDetail project={project} />
+  ) : (
+    <ErrorPage
+      title="Project not found"
+      message="There is no project at this address. It may have been renamed or removed."
+    />
   )
 }
 
