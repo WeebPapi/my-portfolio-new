@@ -36,8 +36,8 @@ const ProjectDetail: React.FC<{ project: Project }> = ({ project }) => {
       <header className="mt-8 pb-10">
         <p className="eyebrow">{project.type}</p>
         <h1 className="display-xl mt-3">
-          <span className="block overflow-hidden pb-[0.1em]">
-            <span className="animate-rise block">{project.name}</span>
+          <span className="block pb-[0.1em]">
+            <span className="animate-stamp block">{project.name}</span>
           </span>
         </h1>
         <p className="mt-3 max-w-2xl text-lg text-muted sm:text-xl">

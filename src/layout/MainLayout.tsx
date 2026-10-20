@@ -18,6 +18,9 @@ const asciiName = `888    d8P         d8888 8888888b.     d8888 888b    888     
 888   Y88b   d8888888888 888     d8888888888 888   Y8888  d8888888888 888  .d88P d88P       888
 888    Y88b d88P     888 888    d88P     888 888    Y888 d88P     888 8888888P" d8888888888 8888888888`
 
+// Column where each letter starts on row r; the A's lean, so their edge moves left one column per row.
+const letterStarts = (r: number) => [0, 19 - r, 25, 39 - r, 45, 64 - r, 70, 80, 92]
+
 const MainLayout: React.FC = () => (
   <div className="flex min-h-screen flex-col">
     <a
@@ -77,14 +80,31 @@ const MainLayout: React.FC = () => (
       </div>
       {/* A small cheetah drops by on top of the wordmark now and then. */}
       <div aria-hidden="true" className="relative mt-6 h-10 motion-reduce:hidden sm:h-12">
-        <RunningCheetah className="absolute bottom-0 left-0 w-20 text-accent-soft sm:w-24" />
+        <RunningCheetah />
       </div>
       {/* Full-width ASCII wordmark (figlet "Colossal"); 1.5vw keeps its 102 columns inside the viewport. */}
       <pre
         aria-hidden="true"
         className="mx-auto w-fit max-w-full select-none overflow-hidden pb-6 font-mono text-[1.5vw] font-bold leading-none text-paper/45"
       >
-        {asciiName}
+        {/* A current runs down each letter row by row, then jumps to the next letter. */}
+        {asciiName.split("\n").map((row, r) => {
+          const starts = letterStarts(r)
+          return (
+            <React.Fragment key={r}>
+              {starts.map((start, letter) => (
+                <span
+                  key={letter}
+                  className="animate-current"
+                  style={{ animationDelay: `${(letter * 8 + r) * 35}ms` }}
+                >
+                  {row.slice(start, starts[letter + 1])}
+                </span>
+              ))}
+              {"\n"}
+            </React.Fragment>
+          )
+        })}
       </pre>
     </footer>
     <ScrollRestoration />

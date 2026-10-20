@@ -8,8 +8,8 @@ const ContactPage: React.FC = () => {
   return (
     <div className="container-page py-12 sm:py-16">
       <h1 className="display-xl">
-        <span className="block overflow-hidden pb-[0.1em]">
-          <span className="animate-rise block">Contact</span>
+        <span className="block pb-[0.1em]">
+          <span className="animate-stamp block">Contact</span>
         </span>
       </h1>
       <p className="mt-4 max-w-prose text-lg text-muted">

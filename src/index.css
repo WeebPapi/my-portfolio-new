@@ -68,26 +68,56 @@
 }
 
 @layer utilities {
-  .animate-rise {
-    animation: rise 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  /* Lands like a print: starts as a lifted outline proof with the accent shadow, then slams down and inks in. */
+  .animate-stamp {
+    -webkit-text-stroke: 1.5px transparent;
+    animation: stamp 0.4s cubic-bezier(0.7, 0, 0.9, 0.4) backwards;
+  }
+  /* Same press for .lift buttons; backwards fill so the hover transition still works afterwards. */
+  .animate-press {
+    animation: press 0.3s cubic-bezier(0.7, 0, 0.9, 0.4) backwards;
   }
   .animate-pop {
     animation: pop 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  }
+  .animate-current {
+    animation: current 6s linear infinite;
   }
   .animate-flow {
     animation: flow 1.2s linear infinite;
   }
 }
 
-@keyframes rise {
+@keyframes stamp {
   from {
-    transform: translateY(110%);
+    color: transparent;
+    -webkit-text-stroke-color: theme("colors.ink");
+    transform: translate(-0.05em, -0.05em);
+    text-shadow: 0.05em 0.05em 0 theme("colors.accent.DEFAULT");
+  }
+}
+@keyframes press {
+  from {
+    transform: translate(-0.25rem, -0.25rem);
+    box-shadow: 6px 6px 0 theme("colors.accent.DEFAULT");
   }
 }
 @keyframes pop {
   from {
     opacity: 0;
     transform: translateY(1.25rem) scale(0.97);
+  }
+}
+@keyframes current {
+  0%,
+  1% {
+    -webkit-text-fill-color: #b8fbff;
+    text-shadow: 0 0 0.15em rgb(0 229 255 / 0.25);
+  }
+  4%,
+  to {
+    -webkit-text-fill-color: currentcolor;
+    text-shadow: none;
   }
 }
 @keyframes flow {
@@ -101,7 +131,7 @@
   @apply relative overflow-hidden rounded-[1.75rem] border-2 border-ink;
   container-type: inline-size;
   aspect-ratio: 16 / 10;
-  background: radial-gradient(120% 90% at 30% 10%, #2d2b28, theme(colors.ink) 60%);
+  background: radial-gradient(120% 90% at 30% 10%, #24303a, theme(colors.ink) 60%);
 }
 .sticker {
   @apply absolute flex items-center whitespace-nowrap bg-white font-display font-semibold text-ink;
@@ -160,7 +190,24 @@
 }
 
 /* Footer cheetah. RunningCheetah steps data-phase through away → in → rest → out; position eases between phases. */
+/* Pixel art scales by whole steps only: 1x on phones, 2x from the sm breakpoint. */
+.cheetah-layer {
+  --s: 1;
+}
+@media (min-width: 640px) {
+  .cheetah-layer {
+    --s: 2;
+  }
+}
+.cheetah-run,
+.cheetah-spark {
+  background-repeat: no-repeat;
+  background-size: auto 100%;
+  image-rendering: pixelated;
+}
 .cheetah-run {
+  width: calc(65px * var(--s));
+  height: calc(33px * var(--s));
   transform: translateX(-100%);
 }
 .cheetah-run[data-phase="in"],
@@ -172,85 +219,16 @@
   transform: translateX(100vw);
   transition: transform 1s cubic-bezier(0.55, 0, 0.9, 0.5);
 }
-.cheetah-run .torso,
-.cheetah-run .front,
-.cheetah-run .hind,
-.cheetah-run .head,
-.cheetah-run .tail {
-  transform-box: view-box;
-  animation: 0.45s linear infinite;
+/* One trail splash: plays the 4 frames of trail-sheet.png once, then RunningCheetah removes it. */
+.cheetah-spark {
+  position: absolute;
+  width: calc(30px * var(--s));
+  height: calc(26px * var(--s));
+  animation: spark 0.4s steps(4) forwards;
 }
-.cheetah-run .torso {
-  transform-origin: 52px 24px;
-}
-.cheetah-run .front {
-  transform-origin: 71px 24px;
-}
-.cheetah-run .hind {
-  transform-origin: 34px 22px;
-}
-.cheetah-run .far {
-  animation-delay: -0.07s;
-  opacity: 0.5;
-}
-.cheetah-run:is([data-phase="in"], [data-phase="out"]) .torso {
-  animation-name: bob;
-}
-.cheetah-run:is([data-phase="in"], [data-phase="out"]) .front {
-  animation-name: front-legs;
-}
-.cheetah-run:is([data-phase="in"], [data-phase="out"]) .hind {
-  animation-name: hind-legs;
-}
-/* At rest: the tail flicks and the head lifts to scan around. */
-.cheetah-run .tail {
-  transform-origin: 30px 21px;
-}
-.cheetah-run .head {
-  transform-origin: 74px 20px;
-}
-.cheetah-run[data-phase="rest"] .tail {
-  animation: flick 1.4s ease-in-out infinite;
-}
-.cheetah-run[data-phase="rest"] .head {
-  animation: glance 3.2s ease-in-out both;
-}
-@keyframes flick {
-  50% {
-    transform: rotate(-14deg);
-  }
-}
-@keyframes glance {
-  30%,
-  60% {
-    transform: rotate(-8deg) translateY(-1px);
-  }
-}
-@keyframes bob {
-  50% {
-    transform: translateY(-2.5px) scaleX(0.92);
-  }
-  0%,
+@keyframes spark {
   to {
-    transform: scaleX(1.06);
-  }
-}
-@keyframes front-legs {
-  50% {
-    transform: rotate(42deg);
-  }
-  0%,
-  to {
-    transform: rotate(-58deg);
-  }
-}
-@keyframes hind-legs {
-  50% {
-    transform: rotate(-50deg);
-  }
-  0%,
-  to {
-    transform: rotate(52deg);
+    background-position: calc(-120px * var(--s)) 0;
   }
 }
 

@@ -1,65 +1,91 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
+import sheet from "../assets/cheetah/cheetah-sheet.png"
+import trail from "../assets/cheetah/trail-sheet.png"
 
-// Side-on cheetah silhouette for the footer; the gallop and tail flick are CSS (.cheetah-run in index.css).
-const frontLeg = "M71 24 L72 36 L70 46.5 L73.5 47.5"
-const hindLeg = "M34 22 L39 34 L34.5 46.5 L38 47.5"
+// Pixel sprite: 24 frames of 65x33 in one strip, nose and ground line aligned across frames.
+// 0-7 gallop, 8-10 brake, 11-13 push off, 14-17 breathe, 18-20 sit and look, 21-23 tail flick.
+const FRAMES = 24
+const CELL_W = 65
 
-// Sprints in, slows to a stop on the wordmark, looks around flicking its tail, then bolts off. [phase, ms]
+// Sprints in, brakes on the wordmark, looks around flicking its tail, then bolts off. [phase, ms]
 const routine = [
   ["in", 1600],
   ["rest", 3200],
   ["out", 1000],
   ["away", 8000],
 ] as const
+type Phase = (typeof routine)[number][0]
 
-const Leg: React.FC<{ className: string; d: string; width: number }> = ({ className, d, width }) => (
-  <path
-    className={className}
-    d={d}
-    fill="none"
-    stroke="currentColor"
-    strokeWidth={width}
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  />
-)
+const gallop = (ms: number) =>
+  Array.from({ length: Math.ceil(ms / 70) }, (_, i): [number, number] => [i % 8, 70])
 
-const RunningCheetah: React.FC<{ className?: string }> = ({ className = "" }) => {
+// Sprite frames per phase as [frame, ms]; the last frame holds until the phase changes.
+const frames: Record<Phase, [number, number][]> = {
+  in: [...gallop(1200), [8, 130], [9, 130], [10, 140]],
+  rest: [
+    [14, 200], [15, 200], [16, 200], [17, 200],
+    [18, 450], [19, 650], [18, 350],
+    [14, 200], [21, 110], [22, 110], [23, 110], [22, 110], [21, 110], [14, 0],
+  ],
+  out: [[11, 90], [12, 90], [13, 90], ...gallop(800)],
+  away: [[0, 0]],
+}
+
+const RunningCheetah: React.FC = () => {
   // Step -1 is a short off-screen wait so the first entrance comes soon after the page loads.
   const [step, setStep] = useState(-1)
-  const [phase, duration] = step < 0 ? ["away", 1200] : routine[step]
+  const [phase, duration] = step < 0 ? ["away" as const, 1200] : routine[step]
+  const layer = useRef<HTMLDivElement>(null)
+  const sprite = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const next = setTimeout(() => setStep((step + 1) % routine.length), duration)
     return () => clearTimeout(next)
-  }, [step, phase, duration])
+  }, [step, duration])
+
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout>
+    let lastSpark = 0
+
+    // Splashes stay where they spawn, so the running cat leaves them behind.
+    const spark = () => {
+      if (!layer.current || !sprite.current) return
+      const base = layer.current.getBoundingClientRect()
+      const cat = sprite.current.getBoundingClientRect()
+      const scale = cat.width / CELL_W
+      const el = document.createElement("div")
+      el.className = "cheetah-spark"
+      el.style.backgroundImage = `url(${trail})`
+      // Hind paws sit around x 17 on the ground line; the 30x26 splash is bottom-centred there.
+      el.style.left = `${cat.left - base.left + (17 - 15) * scale}px`
+      el.style.top = `${cat.top - base.top + (33 - 26) * scale}px`
+      el.addEventListener("animationend", () => el.remove())
+      layer.current.append(el)
+    }
+
+    const show = (i: number) => {
+      const [frame, ms] = frames[phase][i]
+      sprite.current?.style.setProperty("background-position", `${(frame / (FRAMES - 1)) * 100}% 0`)
+      const now = performance.now()
+      if (frame < 8 && phase !== "away" && now - lastSpark >= 140) {
+        lastSpark = now
+        spark()
+      }
+      if (i + 1 < frames[phase].length) timer = setTimeout(() => show(i + 1), ms)
+    }
+    show(0)
+    return () => clearTimeout(timer)
+  }, [phase])
 
   return (
-    <svg viewBox="0 0 100 52" aria-hidden="true" data-phase={phase} className={`cheetah-run ${className}`}>
-      <g className="torso">
-        <Leg className="front far" d={frontLeg} width={2.6} />
-        <Leg className="hind far" d={hindLeg} width={3} />
-        <path
-          fill="currentColor"
-          d="M32 19C40 16 56 14 66 15C72 15.5 77 18 78 22C79 27 75 31 70 31C64 31 60 28 54 26C48 24.5 42 26 36 27.5C30 29 27 25 28 22C28.5 20.5 30 19.5 32 19Z"
-        />
-        <path
-          className="head"
-          fill="currentColor"
-          d="M70 17C73 14 77 12.5 81 12.5L81.8 10.5L83.4 12.6C86.5 13 88.5 15 88 17C87.5 18.6 85 19 82.5 19.2C80 19.5 77 21.5 75 24Z"
-        />
-        <path
-          className="tail"
-          d="M30 21C22 21 15 25 10 29C7 31.5 4 31 3.5 28"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth={2.2}
-          strokeLinecap="round"
-        />
-        <Leg className="front" d={frontLeg} width={2.6} />
-        <Leg className="hind" d={hindLeg} width={3} />
-      </g>
-    </svg>
+    <div ref={layer} className="cheetah-layer absolute inset-0">
+      <div
+        ref={sprite}
+        data-phase={phase}
+        className="cheetah-run absolute bottom-0 left-0"
+        style={{ backgroundImage: `url(${sheet})` }}
+      />
+    </div>
   )
 }
 

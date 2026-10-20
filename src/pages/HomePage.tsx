@@ -19,6 +19,14 @@ const aiTools = [
     use: "Deeper technical analysis and security-sensitive backend work.",
   },
   { name: "Claude", use: "Frontend and design-heavy tasks." },
+  {
+    name: "Skills",
+    use: "Reusable instructions agents load for recurring jobs, like code review or keeping changes small.",
+  },
+  {
+    name: "Open-source repos",
+    use: "Reference for agents: they study how established projects solve a problem before building.",
+  },
 ]
 
 const experience = [
@@ -164,27 +172,26 @@ const HomePage: React.FC = () => {
           </div>
           <h1 aria-label={headline.join(" ")} className="display-xl mt-6">
             {headline.map((line, index) => (
-              // Each line slides up out of its own clipping box.
-              <span key={line} aria-hidden="true" className="-mb-[0.1em] block overflow-hidden pb-[0.1em]">
-                <span
-                  className={`animate-rise block ${index === 2 ? "text-accent" : ""}`}
-                  style={{ animationDelay: `${index * 120}ms` }}
-                >
-                  {line}
-                </span>
+              <span
+                key={line}
+                aria-hidden="true"
+                className={`animate-stamp block ${index === 2 ? "text-accent" : ""}`}
+                style={{ animationDelay: `${300 + index * 220}ms` }}
+              >
+                {line}
               </span>
             ))}
           </h1>
-          <p className="animate-pop mt-8 max-w-2xl text-lg text-muted [animation-delay:500ms] sm:text-xl">
+          <p className="mt-8 max-w-2xl text-lg text-muted sm:text-xl">
             I design, build and deploy web applications end to end: frontend,
             backend and deployment. Orchestrating AI coding agents is part of how
             I work.
           </p>
-          <div className="animate-pop mt-8 flex flex-wrap gap-4 [animation-delay:600ms]">
-            <Link to="/projects" viewTransition className="btn-primary">
+          <div className="mt-8 flex flex-wrap gap-4">
+            <Link to="/projects" viewTransition className="btn-primary animate-press [animation-delay:1100ms]">
               View projects
             </Link>
-            <a href="#contact" className="btn-secondary">
+            <a href="#contact" className="btn-secondary animate-press [animation-delay:1250ms]">
               Get in touch
             </a>
           </div>
@@ -218,7 +225,8 @@ const HomePage: React.FC = () => {
             <SectionHeading number="02">How I work with AI</SectionHeading>
             <p className="mt-6 max-w-md text-paper/80">
               I use several AI tools, each for the kind of work it suits, and
-              T3 Code to coordinate them.
+              T3 Code to coordinate them. Skills and open-source code keep
+              their output grounded.
             </p>
             <dl className="mt-8 border-t border-paper/25">
               {aiTools.map((tool) => (

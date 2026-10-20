@@ -20,8 +20,8 @@ const ProjectsPage: React.FC = () => {
   return (
     <div className="container-page py-10 sm:py-14">
       <h1 className="display-xl">
-        <span className="block overflow-hidden pb-[0.1em]">
-          <span className="animate-rise block">
+        <span className="block pb-[0.1em]">
+          <span className="animate-stamp block">
             Projects
             <sup aria-hidden="true" className="ml-2 font-mono text-[0.22em] font-normal tracking-normal text-accent [vertical-align:2.4em]">
               {projects.length}

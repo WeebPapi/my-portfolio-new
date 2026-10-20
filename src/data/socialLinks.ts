@@ -14,9 +14,4 @@ export const socialLinks = [
     text: "Aleksandre Kapanadze",
     href: "https://www.linkedin.com/in/aleksandre-kapanadze-034681212/",
   },
-  {
-    label: "Fiverr",
-    text: "alexmakespages",
-    href: "https://www.fiverr.com/alexmakespages?up_rollout=true",
-  },
 ]
